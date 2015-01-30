@@ -37,9 +37,40 @@
 			<value>jms/RemoteConnectionFactory</value>
 		</property>
 	</bean>
-
+	<bean id="transportConfiguration140" class="org.hornetq.api.core.TransportConfiguration">
+		<constructor-arg value="org.hornetq.core.remoting.impl.netty.NettyConnectorFactory" />
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Object">
+				<entry key="host" value="192.168.1.140"></entry>
+				<entry key="port" value="5445"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="transportConfiguration141" class="org.hornetq.api.core.TransportConfiguration">
+		<constructor-arg value="org.hornetq.core.remoting.impl.netty.NettyConnectorFactory" />
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Object">
+				<entry key="host" value="192.168.1.141"></entry>
+				<entry key="port" value="5445"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="hornetFactory" class="org.hornetq.api.jms.HornetQJMSClient" factory-method="createConnectionFactoryWithHA">
+		<constructor-arg name="jmsFactoryType" type="org.hornetq.api.jms.JMSFactoryType" value="XA_CF"></constructor-arg>
+		<constructor-arg name="initialServers">
+			<list>
+				<ref bean="transportConfiguration140"/>
+				<ref bean="transportConfiguration141"/>
+			</list>
+		</constructor-arg>
+<!-- 		<constructor-arg type="org.hornetq.api.core.TransportConfiguration" ref="transportConfiguration140"></constructor-arg> -->
+<!-- 		<constructor-arg type="org.hornetq.api.core.TransportConfiguration" ref="transportConfiguration141"></constructor-arg> -->
+	</bean>
+<!-- 	<bean id="hornetFactory" class="org.hornetq.jms.client.HornetQConnectionFactory"> -->
+<!-- 	<constructor-arg name="serverLocator" ref="serverLocator"></constructor-arg> -->
+<!-- 	</bean> -->
 	<bean id="myConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter" lazy-init="true">
-		<property name="targetConnectionFactory" ref="jmsConnectionFactory" />
+		<property name="targetConnectionFactory" ref="hornetFactory" />
 		<property name="username" value="${jms.connection.UserCredentials.username}" />
 		<property name="password" value="${jms.connection.UserCredentials.password}" />
 	</bean>

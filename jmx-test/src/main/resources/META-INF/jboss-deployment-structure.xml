@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
-	<deployment>
-		<resources>
-			<resource-root path="lib/jboss-client-7.2.0.Final.jar" />
-<!-- 			<resource-root path="lib/jms-1.1.jar" /> -->
-<!-- 			<resource-root path="lib/quartz-1.6.0.jar" /> -->
-		</resources>
-	</deployment>
+<!-- 	<deployment> -->
+<!-- 		<resources> -->
+			<!-- <resource-root path="lib/jboss-client-7.2.0.Final.jar" / -->
+			<!-- <resource-root path="lib/jms-1.1.jar" /> -->
+			<!-- <resource-root path="lib/quartz-1.6.0.jar" /> -->
+<!-- 		</resources> -->
+<!-- 	</deployment> -->
 </jboss-deployment-structure>

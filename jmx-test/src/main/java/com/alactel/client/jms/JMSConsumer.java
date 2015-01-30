@@ -17,13 +17,13 @@ import javax.naming.InitialContext;
 
 public class JMSConsumer {
  
-    private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-    private static final String DEFAULT_DESTINATION = "jms/queue/test";
-	private static final String DEFAULT_USERNAME = "appuser";
-	private static final String DEFAULT_PASSWORD = "ans#150!";
+    private static final String DEFAULT_CONNECTION_FACTORY = "ClusteredConnectionFactory";
+    private static final String DEFAULT_DESTINATION = "topic/Inventory";
+	private static final String DEFAULT_USERNAME = "system";
+	private static final String DEFAULT_PASSWORD = "4x5@system";
     private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
 //	private static final String PROVIDER_URL = "remote://135.251.31.19:4447";
-	private static final String PROVIDER_URL = "remote://135.251.246.207:4447";
+	private static final String PROVIDER_URL = "remote://135.252.247.62:4447,remote://135.252.247.63:4447";
  
     public static void main(String[] args) throws Exception {
  

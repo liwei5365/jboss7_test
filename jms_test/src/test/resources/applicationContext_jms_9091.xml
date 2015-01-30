@@ -16,7 +16,7 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:jndi.properties</value>
+				<value>classpath:jndi2.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -32,14 +32,45 @@
 		</property>
 	</bean>
 
-	<bean id="jmsConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName">
-			<value>jms/RemoteConnectionFactory</value>
-		</property>
+<!-- 	<bean id="jmsConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
+<!-- 		<property name="jndiName"> -->
+<!-- 			<value>jms/RemoteConnectionFactory</value> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	<bean id="transportConfiguration90" class="org.hornetq.api.core.TransportConfiguration">
+		<constructor-arg value="org.hornetq.core.remoting.impl.netty.NettyConnectorFactory" />
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Object">
+				<entry key="host" value="135.252.247.90"></entry>
+				<entry key="port" value="5445"></entry>
+			</map>
+		</constructor-arg>
 	</bean>
-
+	<bean id="transportConfiguration91" class="org.hornetq.api.core.TransportConfiguration">
+		<constructor-arg value="org.hornetq.core.remoting.impl.netty.NettyConnectorFactory" />
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Object">
+				<entry key="host" value="135.252.247.91"></entry>
+				<entry key="port" value="5445"></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="hornetFactory" class="org.hornetq.api.jms.HornetQJMSClient" factory-method="createConnectionFactoryWithHA">
+		<constructor-arg name="jmsFactoryType" type="org.hornetq.api.jms.JMSFactoryType" value="XA_CF"></constructor-arg>
+		<constructor-arg name="initialServers">
+			<list>
+				<ref bean="transportConfiguration90"/>
+				<ref bean="transportConfiguration91"/>
+			</list>
+		</constructor-arg>
+<!-- 		<constructor-arg type="org.hornetq.api.core.TransportConfiguration" ref="transportConfiguration140"></constructor-arg> -->
+<!-- 		<constructor-arg type="org.hornetq.api.core.TransportConfiguration" ref="transportConfiguration141"></constructor-arg> -->
+	</bean>
+<!-- 	<bean id="hornetFactory" class="org.hornetq.jms.client.HornetQConnectionFactory"> -->
+<!-- 	<constructor-arg name="serverLocator" ref="serverLocator"></constructor-arg> -->
+<!-- 	</bean> -->
 	<bean id="myConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter" lazy-init="true">
-		<property name="targetConnectionFactory" ref="jmsConnectionFactory" />
+		<property name="targetConnectionFactory" ref="hornetFactory" />
 		<property name="username" value="${jms.connection.UserCredentials.username}" />
 		<property name="password" value="${jms.connection.UserCredentials.password}" />
 	</bean>
@@ -59,7 +90,7 @@
 
 	<bean id="destination" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName">
-			<value>/jms/test</value>
+			<value>/topic/Inventory</value>
 		</property>
 		<property name="jndiTemplate">
 			<ref bean="jndiIndexTemplate" />
