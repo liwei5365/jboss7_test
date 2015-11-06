@@ -4,7 +4,9 @@ jms_test : start localhost jboss7 ,connect remote jboss7 jms demo
 
 thanks 
 test pull request
-
-base 最新
-head  需要更新
-
+#
+compare across forks. 显示全部对比路径
+1：分支更新时候
+base forks 自己的分支
+head forks  修改更新的分支
+2：修改分支让主分支更新
